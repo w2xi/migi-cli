@@ -1,5 +1,5 @@
 {
-  "name": "@w2xi/migi",
+  "name": "migi",
   "version": "0.0.1",
   "description": "A simple CLI tool to create a new project",
   "publishConfig": {
@@ -8,17 +8,18 @@
   },
   "main": "index.js",
   "bin": {
-    "migi": "bin/migi",
-    "migi-create": "bin/migi-create"
+    "migi": "dist/migi.js",
+    "migi-create": "dist/migi-create.js"
   },
   "scripts": {
     "dev": "pnpm run build --watch",
-    "build": "tsup bin --dts --minify"
+    "build": "tsup bin --dts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "4.1.2",
     "commander": "^12.0.0",
     "inquirer": "^9.2.16"
   },

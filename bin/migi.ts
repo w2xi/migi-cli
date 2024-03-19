@@ -10,5 +10,6 @@ program
   .version(pkg.version)
   .usage('<command> [options]')
   .description('Migi CLI')
+  .command('list', 'list available templates')
   .command('create <template> <project-name>', 'create a new project based on a template')
   .parse(process.argv)
