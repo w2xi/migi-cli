@@ -7,7 +7,8 @@ import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { homedir } from 'os'
 import ora from 'ora'
-import ask from '../lib/ask'
+import ask from '../lib/ask.ts'
+import generate from '../lib/generate.ts'
 
 const download = promisify(require('download-git-repo'))
 
@@ -25,14 +26,10 @@ function help () {
 help()
 
 const options = program.args
-
-console.log(options)
-
 const projectName = options[0]
 const template = options[1]
-
 const destination = path.resolve(projectName || '.')
-const downloadPath = path.join(homedir(), '.migi-templates')
+const localTemplatePath = path.join(homedir(), '.migi-templates')
 
 if (existsSync(destination)) {
   inquirer.prompt([
@@ -52,9 +49,8 @@ if (existsSync(destination)) {
 
 function run() {
   ask().then(answers => {
-    console.log(answers)
     const officialTemplate = 'migi-templates/' + template
-    downloadAndGenerate(officialTemplate)
+    downloadAndGenerate(officialTemplate, answers)
   })
 }
 
@@ -64,14 +60,15 @@ function run() {
  * @param {String} template
  */
 
-function downloadAndGenerate (officialTemplate: string) {
+function downloadAndGenerate (officialTemplate: string, answers: any) {
   const spinner = ora('downloading template...')
   spinner.start()
   // 将模板下载到本地 (~/.migi-templates)
-  download(officialTemplate, downloadPath, { clone: false })
+  const saveTemplatePath = path.join(localTemplatePath, template)
+  download(officialTemplate, saveTemplatePath, { clone: false })
     .then(() => {
       spinner.succeed('Successful download template!')
-      // ...
+      generate(saveTemplatePath, destination, answers)
     }).catch((err: Error) => {
       spinner.fail('Failed to download repo ' + officialTemplate + ': ' + err.message.trim())
     }).finally(() => {
