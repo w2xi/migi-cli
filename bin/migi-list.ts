@@ -31,5 +31,7 @@ fetch('https://api.github.com/users/migi-templates/repos')
       console.error(res.message)
     }
   }).catch(err => {
-    
+    console.log()
+    console.error(err)
+    process.exit(1)
   })
