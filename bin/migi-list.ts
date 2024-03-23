@@ -28,10 +28,10 @@ fetch('https://api.github.com/users/migi-templates/repos')
           ' - ' + repo.description)
       })
     } else {
-      console.error(res.message)
+      console.log('Failed to fetch template list: ' + chalk.red(res.message))
     }
   }).catch(err => {
     console.log()
-    console.error(err)
+    console.log('Failed to fetch template list: ' + chalk.red(err.toString()))
     process.exit(1)
   })

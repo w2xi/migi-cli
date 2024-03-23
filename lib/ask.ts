@@ -8,6 +8,13 @@ const questions = [
     message: "Project name",
   },
   {
+    name: 'version',
+    type: 'string',
+    required: false,
+    message: 'Project version',
+    default: '0.0.1'
+  },
+  {
     name: "description",
     type: "string",
     required: false,
@@ -17,30 +24,6 @@ const questions = [
     name: "author",
     type: "string",
     message: "Author",
-  },
-  {
-    name: "pm",
-    type: "list",
-    message: "Install dependencies?",
-    choices: [
-      {
-        name: "npm",
-        value: "npm",
-      },
-      {
-        name: "yarn",
-        value: "yarn",
-      },
-      {
-        name: 'pnpm',
-        value: 'pnpm',
-      },
-      {
-        name: "No, I will handle that myself",
-        value: false,
-        short: "no",
-      },
-    ],
   },
 ]
 

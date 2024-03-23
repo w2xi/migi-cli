@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "CommonJS",
     "outDir": "bin",
-    "rootDirs": ["bin", "lib"],
-    "strict": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["node"],
   },
   "include": [
-    "cli/**/*.ts",
+    "bin/**/*.ts",
+    "lib/**/*.ts"
   ],
   "exclude": [
     "node_modules"

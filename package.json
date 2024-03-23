@@ -1,7 +1,7 @@
 {
-  "name": "migi",
+  "name": "@w2xi/migi-cli",
   "version": "0.0.1",
-  "description": "A simple CLI tool to create a new project",
+  "description": "A simple CLI tool to create a new project based on a template",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -12,25 +12,36 @@
     "migi-create": "dist/migi-create.js"
   },
   "scripts": {
+    "prepublishOnly": "nr build",
     "dev": "pnpm run build --watch",
-    "build": "tsup bin --dts"
+    "build": "tsup bin --dts",
+    "release": "bumpp --commit --push --tag && pnpm publish"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cli",
+    "create",
+    "project",
+    "migi"
+  ],
+  "author": "w2xi",
+  "license": "MIT",
   "dependencies": {
     "chalk": "4.1.2",
     "commander": "^12.0.0",
     "download-git-repo": "^3.0.2",
     "ejs": "^3.1.9",
     "fast-glob": "^3.3.2",
+    "find-up": "5.0.0",
     "fs-extra": "^11.2.0",
     "inquirer": "8.2.6",
     "ora": "5.0.0"
   },
   "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.11.28",
+    "bumpp": "^9.4.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.2"
   }
