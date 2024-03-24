@@ -1,6 +1,6 @@
 {
   "name": "@w2xi/migi-cli",
-  "version": "0.0.2-beta.2",
+  "version": "0.0.2-beta.3",
   "description": "A simple CLI tool to create a new project based on a template",
   "publishConfig": {
     "access": "public",
