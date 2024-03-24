@@ -6,6 +6,10 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
+  "repository": {
+    "url": "https://github.com/w2xi/migi-cli"
+  },
+  "homepage": "https://github.com/w2xi/migi-cli#readme",
   "main": "dist/migi.js",
   "bin": {
     "migi": "dist/migi.js",
