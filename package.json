@@ -6,7 +6,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "main": "index.js",
+  "main": "dist/migi.js",
   "bin": {
     "migi": "dist/migi.js",
     "migi-create": "dist/migi-create.js"
