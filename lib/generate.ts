@@ -3,8 +3,8 @@ import ejs from 'ejs'
 import fse from 'fs-extra'
 import chalk from 'chalk'
 import path from 'path'
-import { AnswerOptions } from './types'
 import { detectPackageManager } from './detect-pm'
+import type { AnswerOptions } from './types'
 
 const installDepCommand = {
   npm: 'npm install',

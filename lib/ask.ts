@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 
-const questions = [
+export const questions = [
   {
     name: "name",
     type: "string",
@@ -26,6 +26,10 @@ const questions = [
     message: "Author",
   },
 ]
+
+export function unshiftQuestion(question) {
+  questions.unshift(question)
+}
 
 export default function ask() {
   return inquirer.prompt(questions).then((answers) => {

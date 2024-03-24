@@ -10,3 +10,8 @@ export type AnswerOptions = {
 export type ExtraOptions = {
   projectName: string
 }
+
+export type GitHubRepo = {
+  name: string
+  description: string
+}

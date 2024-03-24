@@ -1,4 +1,4 @@
-import { AnswerOptions, ExtraOptions } from './types'
+import type { AnswerOptions, ExtraOptions } from './types'
 import getUser from './git-user'
 
 export default function mergeOptions(answers: AnswerOptions, options: ExtraOptions) {
