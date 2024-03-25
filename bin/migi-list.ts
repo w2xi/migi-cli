@@ -22,7 +22,6 @@ fetchTemplates().then((res: GitHubRepo[]) => {
   console.log()
   res.forEach(repo => {
     console.log(
-      '  ' + chalk.yellow('★') +
       '  ' + chalk.blue(repo.name) +
       ' - ' + repo.description)
   })

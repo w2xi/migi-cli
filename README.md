@@ -1,23 +1,13 @@
 # migi-cli
 
-> A simple CLI tool to create a new project based on a template
+> A simple CLI tool to create a new project based on a template.
 
 ## Usage
 
-Install globally:
+Install `migi-cli` globally:
 
 ```bash
 $ npm i @w2xi/migi-cli -g
-```
-
-Fetch available templates:
-
-```bash
-$ migi list
-
-  Migi available templates:
-
-  ★  vue-erciyuan-admin - A template designed for those who love anime, based on Vue3 + Vite +  UnoCSS
 ```
  
 Create an app interactively:
@@ -31,6 +21,20 @@ or specify a template with `--template <available-template>`
 ```bash
 $ migi create <project-name> --template <available-template>
 ```
+
+List available templates:
+
+```bash
+$ migi list
+
+  Migi available templates:
+
+  vue-erciyuan-admin - A template designed for those who love anime, based on Vue3 + Vite +  UnoCSS
+```
+
+## Available Templates
+
+- [vue-erciyuan-admin](https://github.com/migi-templates/vue-erciyuan-admin): A template designed for those who love anime, based on Vue3 + Vite +  UnoCSS
 
 ## Options
 
