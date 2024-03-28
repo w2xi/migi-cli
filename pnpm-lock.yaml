@@ -11,6 +11,9 @@ dependencies:
   commander:
     specifier: ^12.0.0
     version: 12.0.0
+  detect-pm:
+    specifier: ^0.0.2
+    version: 0.0.2
   download-git-repo:
     specifier: ^3.0.2
     version: 3.0.2
@@ -935,6 +938,12 @@ packages:
   /destr@2.0.3:
     resolution: {integrity: sha512-2N3BOUU4gYMpTP24s5rF5iP7BDr7uNTCs4ozw3kf/eKfvWSIu93GEBi5m427YoyJoeOzQ5smuu4nNAPGb8idSQ==}
     dev: true
+
+  /detect-pm@0.0.2:
+    resolution: {integrity: sha512-5YRvkS6Fox3Pcgd5sIm2Aocjl4Ppq5wyuxcD8tsk1TuHthuqemUI5N/HuaIWjtg93sEB1RHl5mLF6YbFGR/AWg==}
+    dependencies:
+      find-up: 5.0.0
+    dev: false
 
   /dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}

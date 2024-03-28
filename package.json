@@ -32,6 +32,7 @@
   "dependencies": {
     "chalk": "4.1.2",
     "commander": "^12.0.0",
+    "detect-pm": "^0.0.2",
     "download-git-repo": "^3.0.2",
     "ejs": "^3.1.9",
     "fast-glob": "^3.3.2",
