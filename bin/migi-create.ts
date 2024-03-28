@@ -1,4 +1,4 @@
-#!/usr/env/bin node
+#!/usr/bin/env node
 
 import { Command } from 'commander'
 import { promisify } from "util"
@@ -12,8 +12,8 @@ import ask from '../lib/ask'
 import generate from '../lib/generate'
 import mergeOptions from '../lib/merge-options'
 import fetchTemplates from '../lib/fetch-templates'
-import type { AnswerOptions, GitHubRepo } from '../lib/types'
-import { questions, unshiftQuestion } from '../lib/ask'
+import type { AnswerOptions, GitHubRepo, Options } from '../lib/types'
+import { unshiftQuestion } from '../lib/ask'
 
 const download = promisify(require('download-git-repo'))
 const program = new Command()
@@ -21,19 +21,28 @@ const program = new Command()
 program
   .name('migi')
   .usage('create <project-name>')
-  .option('--template', 'template for the project')
+  .option('--template <tpl>', 'template for the project')
+  .option('--offline', 'use cached template')
+  .parse(process.argv)
 
-function help () {
-  program.parse(process.argv)
+function help() {
   if (program.args.length < 1) return program.help()
 }
 help()
 
-const options = program.args
-const projectName = options[0]
-let template = options[1]
+const args = program.args
+const options = program.opts() as Options
+const projectName = args[0]
+let template = options.template
 const destination = path.resolve(projectName || '.')
-const localTemplatePath = path.join(homedir(), '.migi-templates')
+const cacheDir = `.migi-templates`
+// `~/{cacheDir}`
+const cacheTemplatesPath = path.join(homedir(), cacheDir)
+
+if (options.offline) {
+  const userRelativePath = `~/${cacheDir}/${template}`
+  console.log(`> Use cached template at ${chalk.yellow(userRelativePath)}`)
+}
 
 if (fse.pathExistsSync(destination)) {
   inquirer.prompt([
@@ -52,7 +61,11 @@ if (fse.pathExistsSync(destination)) {
 }
 
 async function run() {
-  if (options.length === 1) {
+  if (
+    !options.offline &&
+    !options.template &&
+    args.length === 1
+  ) {
     await fetchTemplates().then((res: GitHubRepo[])=> {
       unshiftQuestion(
         {
@@ -61,7 +74,7 @@ async function run() {
           message: 'Select a template:',
           choices: res.map((repo: GitHubRepo) => {
             return { 
-              name: repo.name, 
+              name: repo.name,
               value: repo.name,
               description: repo.description
             }
@@ -77,9 +90,7 @@ async function run() {
     mergeOptions(answers, {
       projectName,
     })
-    template = template || answers.template
-    const officialTemplate = 'migi-templates/' + template
-    downloadAndGenerate(officialTemplate, answers)
+    downloadAndGenerate(answers)
   })
 }
 
@@ -89,20 +100,21 @@ async function run() {
  * @param {String} template
  */
 
-function downloadAndGenerate (officialTemplate: string, answers: AnswerOptions) {
-  const saveTemplatePath = path.join(localTemplatePath, template)
+function downloadAndGenerate(answers: AnswerOptions) {
+  template = template || answers.template
+  const officialTemplate = 'migi-templates/' + template
+  const templatePath = path.join(cacheTemplatesPath, template)
   const spinner = ora('downloading template...')
-  
-  if (fse.pathExistsSync(saveTemplatePath)) {
-    generate(saveTemplatePath, destination, answers)
+
+  if (options.offline && fse.pathExistsSync(templatePath)) {
+    generate(templatePath, destination, answers)
   } else {
     spinner.start()
-    // download a template to a local directory located at `~/.migi-templates`
-    download(officialTemplate, saveTemplatePath, { clone: false })
+    download(officialTemplate, templatePath, { clone: false })
       .then(() => {
         console.log()
         spinner.succeed('Successful download template!')
-        generate(saveTemplatePath, destination, answers)
+        generate(templatePath, destination, answers)
       }).catch((err: Error) => {
         console.log()
         spinner.fail('Failed to download repo ' + officialTemplate + ': ' + err.message.trim())

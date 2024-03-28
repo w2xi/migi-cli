@@ -4,11 +4,17 @@ export type AnswerOptions = {
   email?: string
   description?: string
   packageManager?: 'npm' | 'yarn' | 'pnpm' | false
+  template?: string
   year?: number
 }
 
 export type ExtraOptions = {
   projectName: string
+}
+
+export type Options = {
+  template: string
+  offline: boolean
 }
 
 export type GitHubRepo = {
