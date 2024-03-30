@@ -13,8 +13,8 @@ const installDepCommand = {
 }
 
 export default async function generate(
-  templateDir: string, 
-  destination: string, 
+  templateDir: string,
+  destination: string,
   data: AnswerOptions
 ) {
   copy(templateDir, destination)
@@ -22,10 +22,10 @@ export default async function generate(
     .then(async () => {
       removeTemplateDir(destination)
 
-      const detectAgent = await detectPackageManager(destination) || 'npm'
+      const detectAgent = (await detectPackageManager(destination)) || 'npm'
       const [agent] = detectAgent.split('@')
       const projectName = path.basename(destination)
-      
+
       console.log()
       console.log(chalk.green('Create app successfully!'))
       console.log()
@@ -36,7 +36,8 @@ export default async function generate(
       console.log(`  cd ${projectName}`)
       console.log(`  ${installDepCommand[agent]}`)
       console.log()
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.error(err)
       // remove the generated files
       fse.removeSync(destination)
@@ -52,24 +53,23 @@ function renderEjs(dir: string, data: AnswerOptions) {
   }
 
   return new Promise<void>((resolve, reject) => {
-    const files = fg.sync(
-      '**/*', 
-      { 
-        cwd: templateDirInside,
-        dot: true,
-        ignore: ['**/node_modules/**'],
-      }
-    )
+    const files = fg.sync('**/*', {
+      cwd: templateDirInside,
+      dot: true,
+      ignore: ['**/node_modules/**'],
+    })
     Promise.all(
-      files.map(file => { 
+      files.map((file) => {
         const filepath = path.join(templateDirInside, file)
         return renderFile(filepath, data)
       })
-    ).then(() => {
-      resolve()
-    }).catch((err) => {
-      reject(err)
-    })
+    )
+      .then(() => {
+        resolve()
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
 }
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander'
-import { promisify } from "util"
+import { promisify } from 'node:util'
 import { homedir } from 'node:os'
 import inquirer from 'inquirer'
 import fse from 'fs-extra'
@@ -45,55 +45,60 @@ if (options.offline) {
 }
 
 if (fse.pathExistsSync(destination)) {
-  inquirer.prompt([
-    {
-      type: 'confirm',
-      message: 'Target directory exists. Continue?',
-      name: 'ok'
-    }
-  ]).then(answers => {
-    if (answers.ok) {
-      run()
-    }
-  }).catch(console.error)
+  inquirer
+    .prompt([
+      {
+        type: 'confirm',
+        message: 'Target directory exists. Continue?',
+        name: 'ok',
+      },
+    ])
+    .then((answers) => {
+      if (answers.ok) {
+        run()
+      }
+    })
+    .catch(console.error)
 } else {
   run()
 }
 
 async function run() {
   const answers: AnswerOptions = Object.create(null)
-  if (
-    !options.offline &&
-    !options.template &&
-    args.length === 1
-  ) {
-    await fetchTemplates().then(async (res: GitHubRepo[])=> {
-      await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'template',
-          message: 'Select a template:',
-          choices: res.map((repo: GitHubRepo) => {
-            return { 
-              name: repo.name,
-              value: repo.name,
-              description: repo.description
-            }
+  if (!options.offline && !options.template && args.length === 1) {
+    await fetchTemplates()
+      .then(async (res: GitHubRepo[]) => {
+        await inquirer
+          .prompt([
+            {
+              type: 'list',
+              name: 'template',
+              message: 'Select a template:',
+              choices: res.map((repo: GitHubRepo) => {
+                return {
+                  name: repo.name,
+                  value: repo.name,
+                  description: repo.description,
+                }
+              }),
+            },
+          ])
+          .then((result) => {
+            Object.assign(answers, result)
           })
-        }
-      ]).then(result => {
-        Object.assign(answers, result)
       })
-    }).catch(err => {
-      console.log('Failed to fetch template list: ' + chalk.red(err.toString()))
-      process.exit()
-    })
+      .catch((err) => {
+        console.log(
+          'Failed to fetch template list: ' + chalk.red(err.toString())
+        )
+        process.exit()
+      })
   }
 
   setPromptDefault('name', projectName)
   setValidateName()
 
-  ask().then(result => {
+  ask().then((result) => {
     Object.assign(answers, result)
     const opts = getOptions(answers, { projectName })
     downloadAndGenerate(opts)
@@ -121,11 +126,18 @@ function downloadAndGenerate(answers: AnswerOptions) {
         console.log()
         spinner.succeed('Successful download template!')
         generate(templatePath, destination, answers)
-      }).catch((err: Error) => {
+      })
+      .catch((err: Error) => {
         console.log()
-        spinner.fail('Failed to download repo ' + officialTemplate + ': ' + err.message.trim())
+        spinner.fail(
+          'Failed to download repo ' +
+            officialTemplate +
+            ': ' +
+            err.message.trim()
+        )
         console.log()
-      }).finally(() => {
+      })
+      .finally(() => {
         spinner.stop()
       })
   }

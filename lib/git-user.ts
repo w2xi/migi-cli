@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process"
+import { execSync } from 'node:child_process'
 
 export default function getUser() {
   let author
@@ -11,9 +11,9 @@ export default function getUser() {
 
   author = author ? author.toString().trim() : ''
   email = email ? email.toString().trim() : ''
-  
+
   return {
     email,
-    author
+    author,
   }
 }

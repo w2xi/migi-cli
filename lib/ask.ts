@@ -1,28 +1,28 @@
-import inquirer from "inquirer"
-import validatePkgName from "validate-npm-package-name"
-import type { Question } from "inquirer"
+import inquirer from 'inquirer'
+import validatePkgName from 'validate-npm-package-name'
+import type { Question } from 'inquirer'
 
 export const prompts: Record<string, Question> = {
   name: {
-    name: "name",
-    type: "string",
-    message: "Project name",
+    name: 'name',
+    type: 'string',
+    message: 'Project name',
   },
   version: {
     name: 'version',
     type: 'string',
     message: 'Project version',
-    default: '0.0.1'
+    default: '0.0.1',
   },
   description: {
-    name: "description",
-    type: "string",
-    message: "Project description",
+    name: 'description',
+    type: 'string',
+    message: 'Project description',
   },
   author: {
-    name: "author",
-    type: "string",
-    message: "Author",
+    name: 'author',
+    type: 'string',
+    message: 'Author',
   },
 }
 

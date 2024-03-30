@@ -8,13 +8,8 @@
     "resolveJsonModule": true,
     "declaration": true,
     "sourceMap": true,
-    "types": ["node"],
+    "types": ["node"]
   },
-  "include": [
-    "bin/**/*.ts",
-    "lib/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["bin/**/*.ts", "lib/**/*.ts"],
+  "exclude": ["node_modules"]
 }

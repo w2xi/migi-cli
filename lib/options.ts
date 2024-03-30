@@ -1,7 +1,10 @@
 import type { AnswerOptions, ExtraOptions } from './types'
 import getGitUser from './git-user'
 
-export default function getOptions(answers: AnswerOptions, options: ExtraOptions) {
+export default function getOptions(
+  answers: AnswerOptions,
+  options: ExtraOptions
+) {
   const user = getGitUser()
   const year = new Date().getFullYear()
 
@@ -9,7 +12,7 @@ export default function getOptions(answers: AnswerOptions, options: ExtraOptions
   setDefault(answers, 'author', user.author)
   setDefault(answers, 'email', user.email)
   setDefault(answers, 'year', year.toString())
-  
+
   return answers
 }
 
