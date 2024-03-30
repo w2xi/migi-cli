@@ -12,7 +12,7 @@ import ask from '../lib/ask'
 import generate from '../lib/generate'
 import getOptions from '../lib/options'
 import fetchTemplates from '../lib/fetch-templates'
-import { setPromptDefault } from '../lib/ask'
+import { setPromptDefault, setValidateName } from '../lib/ask'
 import type { AnswerOptions, GitHubRepo, Options } from '../lib/types'
 
 const download = promisify(require('download-git-repo'))
@@ -91,13 +91,11 @@ async function run() {
   }
 
   setPromptDefault('name', projectName)
+  setValidateName()
 
   ask().then(result => {
     Object.assign(answers, result)
     const opts = getOptions(answers, { projectName })
-
-    console.log(opts)
-
     downloadAndGenerate(opts)
   })
 }
