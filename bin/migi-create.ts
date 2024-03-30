@@ -10,10 +10,10 @@ import ora from 'ora'
 import chalk from 'chalk'
 import ask from '../lib/ask'
 import generate from '../lib/generate'
-import mergeOptions from '../lib/merge-options'
+import getOptions from '../lib/options'
 import fetchTemplates from '../lib/fetch-templates'
+import { setPromptDefault } from '../lib/ask'
 import type { AnswerOptions, GitHubRepo, Options } from '../lib/types'
-import { unshiftQuestion } from '../lib/ask'
 
 const download = promisify(require('download-git-repo'))
 const program = new Command()
@@ -61,13 +61,14 @@ if (fse.pathExistsSync(destination)) {
 }
 
 async function run() {
+  const answers: AnswerOptions = Object.create(null)
   if (
     !options.offline &&
     !options.template &&
     args.length === 1
   ) {
-    await fetchTemplates().then((res: GitHubRepo[])=> {
-      unshiftQuestion(
+    await fetchTemplates().then(async (res: GitHubRepo[])=> {
+      await inquirer.prompt([
         {
           type: 'list',
           name: 'template',
@@ -80,17 +81,24 @@ async function run() {
             }
           })
         }
-      )
+      ]).then(result => {
+        Object.assign(answers, result)
+      })
     }).catch(err => {
       console.log('Failed to fetch template list: ' + chalk.red(err.toString()))
       process.exit()
     })
   }
-  ask().then(answers => {
-    mergeOptions(answers, {
-      projectName,
-    })
-    downloadAndGenerate(answers)
+
+  setPromptDefault('name', projectName)
+
+  ask().then(result => {
+    Object.assign(answers, result)
+    const opts = getOptions(answers, { projectName })
+
+    console.log(opts)
+
+    downloadAndGenerate(opts)
   })
 }
 
