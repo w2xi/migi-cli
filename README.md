@@ -29,14 +29,14 @@ $ migi list
 
   Migi available templates:
 
-  nm - A template for creating a new npm module, preferred node-cli tools
+  nm - A template for creating a npm module
   vue-erciyuan-admin - A template designed for those who love anime, based on Vue3 + Vite + UnoCSS
 
 ```
 
 ## Available Templates
 
-- [nm](https://github.com/migi-templates/nm): nm - A template for creating a new npm module, preferred node-cli tools
+- [nm](https://github.com/migi-templates/nm): nm - A template for creating a npm module
 - [vue-erciyuan-admin](https://github.com/migi-templates/vue-erciyuan-admin): A template designed for those who love anime, based on Vue3 + Vite + UnoCSS
 
 ## Options
