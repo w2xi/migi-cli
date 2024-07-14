@@ -17,10 +17,11 @@
   },
   "scripts": {
     "prepublishOnly": "nr build",
-    "dev": "pnpm run build --watch",
+    "dev": "nr build --watch",
     "build": "tsup bin --dts --clean",
     "release": "bumpp --commit --push --tag && pnpm publish",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "check": "tsc --noEmit"
   },
   "keywords": [
     "cli",
