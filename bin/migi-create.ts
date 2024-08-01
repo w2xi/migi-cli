@@ -119,26 +119,30 @@ function downloadAndGenerate(answers: AnswerOptions) {
 
   if (options.offline && fse.pathExistsSync(templatePath)) {
     generate(templatePath, destination, answers)
-  } else {
-    spinner.start()
-    download(officialTemplate, templatePath, { clone: false })
-      .then(() => {
-        console.log()
-        spinner.succeed('Successful download template!')
-        generate(templatePath, destination, answers)
-      })
-      .catch((err: Error) => {
-        console.log()
-        spinner.fail(
-          'Failed to download repo ' +
-            officialTemplate +
-            ': ' +
-            err.message.trim()
-        )
-        console.log()
-      })
-      .finally(() => {
-        spinner.stop()
-      })
+    return
   }
+  spinner.start()
+  // remove if local template exists
+  if (fse.pathExistsSync(templatePath)) {
+    fse.removeSync(templatePath)
+  }
+  download(officialTemplate, templatePath, { clone: false })
+    .then(() => {
+      console.log()
+      spinner.succeed('Successful download template!')
+      generate(templatePath, destination, answers)
+    })
+    .catch((err: Error) => {
+      console.log()
+      spinner.fail(
+        'Failed to download repo ' +
+          officialTemplate +
+          ': ' +
+          err.message.trim()
+      )
+      console.log()
+    })
+    .finally(() => {
+      spinner.stop()
+    })
 }
